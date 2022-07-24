@@ -94,4 +94,50 @@ type Add = (a: number, b: number) => number;
 
 const add: Add = (a,b) => a + b
 
+// overloading 예시
+
+type Config = {
+    path: string,
+    state: object
+}
+
+type Push = {
+    (path: string): void
+    (config: Config): void
+}
+
+const push: Push = (config) => {
+    if (typeof config === "string") { console.log(config)} else {
+        console.log(config.path)
+    }
+}
+
+type Add = {
+    (a: number, b: number) : number
+    (a: number, b: number, c: number) : number 
+}
+
+const add: Add = (a, b, c?:number) => {
+    if(c) return a + b + c
+    return a + b
+}
+
+
+// Polymorphism 예시
+
+type SuperPrint = {
+    (arr: number[]):void
+    (arr: boolean[]):void
+    // generic 예시- 어떤 타입이 들어올지 애매할때
+    <TypePlaceholder>(arr: TypePlaceholder[]):TypePlaceholder
+}
+
+const superPrint: SuperPrint = (arr) => {
+    arr.forEach(i => console.log(i)) 
+}
+
+superPrint([1,2,3,4])
+superPrint([true, false, true])
+superPrint(["a", "b", "c"]) /* error */
+
 ```
